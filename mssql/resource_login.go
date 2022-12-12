@@ -1,18 +1,14 @@
 package mssql
 
 import (
-  "context"
-  "github.com/hashicorp/terraform-plugin-sdk/v2/diag"
-  "github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-  "github.com/pkg/errors"
-  "strings"
-  "github.com/betr-io/terraform-provider-mssql/mssql/model"
-)
+	"context"
+	"strings"
 
-const loginNameProp = "login_name"
-const defaultDatabaseProp = "default_database"
-const defaultDatabaseDefault = "master"
-const defaultLanguageProp = "default_language"
+	"github.com/betr-io/terraform-provider-mssql/mssql/model"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/pkg/errors"
+)
 
 type LoginConnector interface {
   CreateLogin(ctx context.Context, name, password, defaultDatabase, defaultLanguage string) error
