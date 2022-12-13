@@ -11,7 +11,7 @@ import (
 
 func TestConnector_GetRole(t *testing.T) {
 	localConnector, _ := getLocalConnector()
-	role, err := localConnector.GetRole(context.Background(), "role_name")
+	role, err := localConnector.GetRole(context.Background(), "master", "my_role")
 
 	if err != nil {
 		t.Fatalf("Role couldn't be read.")
@@ -40,7 +40,7 @@ func getLocalConnector() (Connector, error) {
 func TestConnector_UpdateRole(t *testing.T) {
 	localConnector, _ := getLocalConnector()
 	role := &model.Role{
-		Name: "updated_name",
+		Name:        "updated_name",
 		PrincipalID: 7,
 	}
 
@@ -48,5 +48,19 @@ func TestConnector_UpdateRole(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Role couldn't be updated.")
+	}
+}
+
+func TestConnector_CreateRole(t *testing.T) {
+	localConnector, _ := getLocalConnector()
+	role := &model.Role{
+		Name: "my_create_role",
+		PrincipalID: 0,
+	}
+
+	err := localConnector.CreateRole(context.Background(), "master", role)
+
+	if err != nil {
+		t.Fatalf("Role couldn't be created.")
 	}
 }

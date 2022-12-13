@@ -39,3 +39,14 @@ func (c *Connector) UpdateRole(ctx context.Context, database string, role *model
 			sql.Named("principalId", role.PrincipalID),
 		)
 }
+
+func (c *Connector) CreateRole(ctx context.Context, database string, role *model.Role) error {
+	cmd := `DECLARE @sql nvarchar(max);
+	SET @sql = 'CREATE ROLE ' + QuoteName(@roleName);
+	EXEC (@sql);`
+	return c.
+		setDatabase(&database).
+		ExecContext(ctx, cmd,
+			sql.Named("roleName", role.Name),
+		)
+}
